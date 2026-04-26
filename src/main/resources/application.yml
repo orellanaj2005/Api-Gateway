@@ -5,14 +5,16 @@ spring:
     gateway:
       routes:
         - id: ms-usuarios
-          uri: http://ms-usuarios:8084
+          # uri: http://ms-usuarios:8084
+          uri: http://localhost:8084
           predicates:
             - Path=/api/auth/**
           filters:
             - StripPrefix=1
 
         - id: ms-inventario
-          uri: http://ms-inventario:8081
+          # uri: http://ms-inventario:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/api/inventario/**
           filters:
@@ -20,7 +22,8 @@ spring:
             - name: JwtAuthFilter
 
         - id: ms-pedidos
-          uri: http://ms-pedidos:8082
+          # uri: http://ms-pedidos:8082
+          uri: http://localhost:8082
           predicates:
             - Path=/api/pedidos/**
           filters:
@@ -28,7 +31,8 @@ spring:
             - name: JwtAuthFilter
 
         - id: ms-envios
-          uri: http://ms-envios:8083
+          # uri: http://ms-envios:8083
+          uri: http://localhost:8083
           predicates:
             - Path=/api/envios/**
           filters:
@@ -36,7 +40,8 @@ spring:
             - name: JwtAuthFilter
 
         - id: ms-notificaciones
-          uri: http://ms-notificaciones:8085
+          # uri: http://ms-notificaciones:8085
+          uri: http://localhost:8085
           predicates:
             - Path=/api/notificaciones/**
           filters:
