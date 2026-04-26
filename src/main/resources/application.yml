@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms-usuarios
+          uri: http://ms-usuarios:8084
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+
+        - id: ms-inventario
+          uri: http://ms-inventario:8081
+          predicates:
+            - Path=/api/inventario/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+        - id: ms-pedidos
+          uri: http://ms-pedidos:8082
+          predicates:
+            - Path=/api/pedidos/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+        - id: ms-envios
+          uri: http://ms-envios:8083
+          predicates:
+            - Path=/api/envios/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+        - id: ms-notificaciones
+          uri: http://ms-notificaciones:8085
+          predicates:
+            - Path=/api/notificaciones/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+server:
+  port: 8080
+
+jwt:
+  secret: clave-secreta-para-smartlogix-2026
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  web:
+    base-path: /actuator
+  # Forzar el contexto reactivo para el actuator
+  server:
+    port: 8080
+
+spring.cloud.gateway.globalcors:
+  corsConfigurations:
+    '[/**]':
+      allowedOrigins:
+        - "http://localhost:3000"
+        - "http://localhost:5173"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowedHeaders: "*"
+      allowCredentials: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.smartlogix.gateway: DEBUG
